@@ -2,7 +2,9 @@
 /* Name: Mohamed Ahmed Abd Al-Fattah Mahmoud
  * Date: 4-4-2018 (First completion)
  * Update: Make a DC motor speed controller using
- * keypad and LCD.
+ * keypad and LCD. There are five speeds (1,2,3,4,5).
+ * Press the key corresponding to the speed to make
+ * the DC motor rotate on that spead.
  */
 
 #include "Std_Types.h"
@@ -40,7 +42,7 @@ void vidInit(void) {
 
 void vidSelectSpeed(void) {
 	do {
-		SERVICES_vidWriteCharacter(1);
+		SERVICES_vidWriteCharacter(SERVICES_CLEAR_LCD);
 		if (u8keyPressed == '1') {
 			TIMER1_vidSetOCRA(u16Speeds_Array[0]);
 		}
@@ -57,5 +59,4 @@ void vidSelectSpeed(void) {
 			TIMER1_vidSetOCRA(u16Speeds_Array[4]);
 		}
 	}while(1);
-	//TIMER1_vidSetOCRA(u16Speads_Array[4]);
 }
