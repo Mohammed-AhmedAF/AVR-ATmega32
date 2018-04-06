@@ -25,6 +25,7 @@ void SERVICES_vidWriteCharacter(u8 u8ClearScreen) {
 		}
 		else {
 			LCD_vidSendCommand(LCD_CLEAR_SCREEN);
+			LCD_vidSendCommand(LCD_RETURN_HOME);
 			LCD_vidWriteCharacter(u8keyPressed);
 		}
 	}
