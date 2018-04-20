@@ -20,7 +20,7 @@ int main(void) {
 		LCD_vidWriteCharacter(b[i]);	
 		i++;
 	} 
-	LCD_vidSendCommand(0b10000000);
-	LCD_vidWriteCharacter(0x00);
+	LCD_vidSendCommand(0b10000000); //Setting address to DDRAM
+	LCD_vidWriteCharacter(0x00); // Selecting the first special character
 	while(1);
 }
