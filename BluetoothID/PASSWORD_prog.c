@@ -62,18 +62,30 @@ void PASSWORD_vidGetID(void) {
 }
 
 void PASSWORD_vidSaveData(void) {
+	u8 u8Password_index = PASSWORD_PASSWORD_START;
+
+	u8 u8ID_index = PASSWORD_ID_START;
 	//Store ID
-	u8 u8ID_element;
+	u8 u8ID_element, u8Password_element;
 	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
 		u8ID_element = u8ID[i];
-		u8Flag = EEPROM_u8WriteByte(i,u8ID_element);
+		u8Flag = EEPROM_u8WriteByte(u8ID_index+i,u8ID_element);
 		if (u8Flag == 1) {
 			UART_vidSendString("!\r");
 		}
 		else {
 			UART_vidSendString("?\r");
 		}
-
+	}
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
+		u8Password_element = u8Password[i];
+		u8Flag = EEPROM_u8WriteByte(u8Password_index+i,u8Password[i]);
+		if (u8Flag == 1) {
+			UART_vidSendString("!\r");
+		}
+		else {
+			UART_vidSendString("?\r");	
+		}
 	}
 
 }
