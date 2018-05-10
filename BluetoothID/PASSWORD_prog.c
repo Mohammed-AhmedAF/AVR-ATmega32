@@ -29,19 +29,19 @@ void PASSWORD_vidRegisterID(void) {
 void PASSWORD_vidRegisterPassword(void) {
 
 	UART_vidSendString("Password (4 digits): \r");
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
 		element = UART_u8ReceiveByte();
 		u8Password[i] = element;
 	}
 
 	UART_vidSendString("Re-enter password: \r");
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
 		element = UART_u8ReceiveByte();
 		u8PasswordRe[i] = element;
 	}
 
 	//Check password match
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
 		if (u8Password[i] != u8PasswordRe[i]) {
 			UART_vidSendString("Passwords don't match.\r");
 			break;
@@ -55,7 +55,7 @@ void PASSWORD_vidRegisterPassword(void) {
 
 void PASSWORD_vidGetID(void) {
 	UART_vidSendString("ID is ");
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
 		UART_vidSendByte(u8ID[i]);
 	}
 	UART_vidSendByte('\r');
@@ -64,7 +64,7 @@ void PASSWORD_vidGetID(void) {
 void PASSWORD_vidSaveData(void) {
 	//Store ID
 	u8 u8ID_element;
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
 		u8ID_element = u8ID[i];
 		u8Flag = EEPROM_u8WriteByte(i,u8ID_element);
 		if (u8Flag == 1) {
@@ -75,6 +75,7 @@ void PASSWORD_vidSaveData(void) {
 		}
 
 	}
+
 }
 
 //Asking for ID after registration
