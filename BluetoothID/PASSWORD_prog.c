@@ -19,7 +19,7 @@ u8 u8Flag = 0;
 u8 u8PasswordMatch = 0;
 
 void PASSWORD_vidRegisterID(void) {
-	UART_vidSendString("ID (3 digits): \r");
+	UART_vidSendString("Enter ID (3 digits): \r");
 	for (i = 0; i < 3; i++) {
 		element = UART_u8ReceiveByte();
 		u8ID[i] = element;
@@ -75,4 +75,11 @@ void PASSWORD_vidSaveData(void) {
 		}
 
 	}
+}
+
+//Asking for ID after registration
+//This function will be called by control logic in main
+void PASSWORD_vidAskID(void) {
+	UART_vidSendString("ID: (3 digits)");
+
 }
