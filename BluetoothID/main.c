@@ -1,3 +1,10 @@
+/*
+ * Author: Mohammed Ahmed Abd Al-Fattah
+ * File: main.c
+ *
+ */
+
+
 #include "Std_Types.h"
 #include "Macros.h"
 #include "DIO_interface.h"
@@ -11,10 +18,12 @@ void vidInit(void);
 int main(void) {
 	vidInit();
 	while(1) {
-		UART_vidSendString("1) Enter ID, 2) Register ID, 3) Show count\r");
+		UART_vidSendString("1) Show ID, 2) Register ID, 3) Show count\r");
 		switch(UART_u8ReceiveByte()){
 			case '1':
-				PASSWORD_vidAskID();
+
+				PASSWORD_vidShowID();
+				PASSWORD_vidShowPassword();
 				break;
 			case '2':
 				PASSWORD_vidRegisterID();

@@ -17,6 +17,7 @@ u8 u8Password[10];
 u8 u8PasswordRe[10];
 u8 u8Flag = 0;
 u8 u8PasswordMatch = 0;
+u8 u8RegisteredUsersCount = 0;
 
 void PASSWORD_vidRegisterID(void) {
 	UART_vidSendString("Enter ID (3 digits): \r");
@@ -88,11 +89,57 @@ void PASSWORD_vidSaveData(void) {
 		}
 	}
 
+	//Storing the current number of registered users
+	u8Flag = EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	if (u8Flag == 1) {
+		UART_vidSendString("!\r");
+	}
+	else {
+		UART_vidSendString("?\r");
+	}
+	u8RegisteredUsersCount +=1;
+	
+	u8Flag = EEPROM_u8WriteByte(PASSWORD_REGISTERED_USERS,u8RegisteredUsersCount);
+	if (u8Flag == 1) {
+		UART_vidSendString("!\r");
+	}	
+	else {
+		UART_vidSendString("!\r");
+	}
 }
 
 //Asking for ID after registration
 //This function will be called by control logic in main
 void PASSWORD_vidAskID(void) {
 	UART_vidSendString("ID: (3 digits)");
+}
 
+//Shows the number of registered users
+void PASSWORD_vidShowRegUsersCount(void) {
+	u8Flag = EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	//Can't view the registeredUsersCount
+	if (u8Flag == 1) {
+		UART_vidSendByte(u8RegisteredUsersCount);
+	}
+	else {
+		UART_vidSendString("Error reading string");
+	}
+}
+
+void PASSWORD_vidShowID(void) {
+	u8 u8id_element;
+	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
+		EEPROM_u8ReadByte(PASSWORD_ID_START+i,&u8id_element);
+		UART_vidSendByte(u8id_element);
+	}
+	UART_vidSendByte('\r');
+}
+
+void PASSWORD_vidShowPassword(void) {
+	u8 u8Password_element;
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
+		EEPROM_u8ReadByte(PASSWORD_PASSWORD_START+i,&u8Password_element);
+		UART_vidSendByte(u8Password_element);		
+	}
+	UART_vidSendByte('\r');
 }
