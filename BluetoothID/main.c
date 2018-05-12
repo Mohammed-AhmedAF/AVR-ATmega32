@@ -1,7 +1,7 @@
 /*
  * Author: Mohammed Ahmed Abd Al-Fattah
  * File: main.c
- *
+ * 
  */
 
 
@@ -13,7 +13,7 @@
 #include "EEPROM_interface.h"
 
 extern u8 u8PasswordMatch;
-u8 u8UserChoice;
+u8 u8UserChoicei = 0;
 void vidInit(void);
 
 int main(void) {
