@@ -137,8 +137,7 @@ void PASSWORD_vidShowRegUsersCount(void) {
 	}
 }
 
-void PASSWORD_vidShowID(void) {
-	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+void PASSWORD_vidShowID(u8 u8UsersCountCpy) {
 	u8UserCount = 0;
 	u8 u8id_element;
 	do {
@@ -149,11 +148,10 @@ void PASSWORD_vidShowID(void) {
 		}
 		UART_vidSendByte('\r');
 		u8UserCount++;
-	}while(u8UserCount <=  u8RegisteredUsersCount);
+	}while(u8UserCount <=  u8UsersCountCpy);
 }
 
-void PASSWORD_vidShowPassword(void) {
-	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+void PASSWORD_vidShowPassword(u8 u8UsersCountCpy) {
 	u8UserCount = 0;
 	u8 u8Password_element;
 	do {
@@ -164,7 +162,18 @@ void PASSWORD_vidShowPassword(void) {
 		}
 		UART_vidSendByte('\r');
 		u8UserCount++;
-	}while (u8UserCount <= u8RegisteredUsersCount);
+	}while (u8UserCount <= u8UsersCountCpy);
+}
+
+void PASSWORD_vidShowData(void) {
+	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	if (u8RegisteredUsersCount != 0) {
+		PASSWORD_vidShowID(u8RegisteredUsersCount);
+		PASSWORD_vidShowPassword(u8RegisteredUsersCount);
+	}
+	else {
+		UART_vidSendString("No registered users.\r");
+	}
 }
 
 void PASSWORD_vidEraseData(void) {

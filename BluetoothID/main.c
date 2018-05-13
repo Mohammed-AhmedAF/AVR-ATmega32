@@ -25,8 +25,7 @@ int main(void) {
 		u8UserChoice = UART_u8ReceiveByte(); //Receiving user choice
 		switch(u8UserChoice){
 			case '1': //Show ID
-				PASSWORD_vidShowID(); //Will show all IDs
-				PASSWORD_vidShowPassword(); //Will show all passwords
+				PASSWORD_vidShowData();
 				break;
 			case '2': //Register ID
 				PASSWORD_vidRegisterID();

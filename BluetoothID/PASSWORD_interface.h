@@ -13,8 +13,9 @@ void PASSWORD_vidRegisterPassword(void);
 void PASSWORD_vidSaveData(void);
 void PASSWORD_vidAskID(void);
 void PASSWORD_vidShowRegUsersCount(void);
-void PASSWORD_vidShowID(void);
-void PASSWORD_vidShowPassword(void);
+void PASSWORD_vidShowID(u8);
+void PASSWORD_vidShowPassword(u8);
+void PASSWORD_vidShowData(void);
 void PASSWORD_vidEraseData(void);
 
 #endif
