@@ -15,5 +15,6 @@ void PASSWORD_vidAskID(void);
 void PASSWORD_vidShowRegUsersCount(void);
 void PASSWORD_vidShowID(void);
 void PASSWORD_vidShowPassword(void);
+void PASSWORD_vidEraseData(void);
 
 #endif

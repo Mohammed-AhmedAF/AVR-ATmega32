@@ -1,6 +1,7 @@
 /*
  * Author: Mohammed Ahmed Abd Al Fattah Mahmoud
  * File: PASSWORD_prog.c
+ * 
  */
 
 #include "Std_Types.h"
@@ -17,7 +18,10 @@ u8 u8Password[10];
 u8 u8PasswordRe[10];
 u8 u8Flag = 0;
 u8 u8PasswordMatch = 0;
-u8 u8RegisteredUsersCount = 0;
+u8 u8UserCount = 0;
+u8 u8ID_index = 0;
+u8 u8Password_index = 0;
+u8 u8RegisteredUsersCount = '0';
 
 void PASSWORD_vidRegisterID(void) {
 	UART_vidSendString("Enter ID (3 digits): \r");
@@ -48,7 +52,7 @@ void PASSWORD_vidRegisterPassword(void) {
 			break;
 		}
 		else if ((i == 3) && (u8Password[i] == u8Password[i])) {
-			UART_vidSendString("Password match \r");
+			UART_vidSendString("Password match.\r");
 			u8PasswordMatch = 1;
 		}
 	}
@@ -63,9 +67,10 @@ void PASSWORD_vidGetID(void) {
 }
 
 void PASSWORD_vidSaveData(void) {
-	u8 u8Password_index = PASSWORD_PASSWORD_START;
+	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	u8 u8Password_index = PASSWORD_PASSWORD_START+PASSWORD_ID_SIZE*u8RegisteredUsersCount;
 
-	u8 u8ID_index = PASSWORD_ID_START;
+	u8 u8ID_index = PASSWORD_ID_START+PASSWORD_PASSWORD_SIZE*u8RegisteredUsersCount;
 	//Store ID
 	u8 u8ID_element, u8Password_element;
 	/*Saving ID*/
@@ -90,20 +95,21 @@ void PASSWORD_vidSaveData(void) {
 			UART_vidSendString("?\r");	
 		}
 	}
-	u8RegisteredUsersCount +=1;
-
-	u8Flag = EEPROM_u8WriteByte(PASSWORD_REGISTERED_USERS,u8RegisteredUsersCount);
-	if (u8Flag == 1) {
-		UART_vidSendString("!\r");
-	}	
-	else {
-		UART_vidSendString("!\r");
-	}
-
-	//Storing the current number of registered users
 	u8Flag = EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
 	if (u8Flag == 1) {
-		UART_vidSendString("!\r");
+		UART_vidSendString("User count is ");
+		u8RegisteredUsersCount +=1;
+		UART_vidSendByte(u8RegisteredUsersCount+'0');
+
+		//Storing the current number of registered users
+		u8Flag = EEPROM_u8WriteByte(PASSWORD_REGISTERED_USERS,u8RegisteredUsersCount);
+		if (u8Flag == 1) {
+			UART_vidSendString("!\r");
+		}	
+		else {
+			UART_vidSendString("!\r");
+		}
+
 	}
 	else {
 		UART_vidSendString("?\r");
@@ -119,32 +125,56 @@ void PASSWORD_vidAskID(void) {
 //Shows the number of registered users
 void PASSWORD_vidShowRegUsersCount(void) {
 	u8 u8test = 0;
-	u8Flag = EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8test);
+	u8Flag = EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
 	//Can't view the registeredUsersCount
 	if (u8Flag == 1) {
-		u8test = u8test+'0';
-		UART_vidSendByte(u8test);
+		u8test = u8RegisteredUsersCount;
+		UART_vidSendByte(u8test+'0');
 		UART_vidSendByte('\r');
 	}
 	else {
-		UART_vidSendString("Error reading string");
+		UART_vidSendString("Error reading count");
 	}
 }
 
 void PASSWORD_vidShowID(void) {
+	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	u8UserCount = 0;
 	u8 u8id_element;
-	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
-		EEPROM_u8ReadByte(PASSWORD_ID_START+i,&u8id_element);
-		UART_vidSendByte(u8id_element);
-	}
-	UART_vidSendByte('\r');
+	do {
+		u8ID_index = PASSWORD_ID_START+PASSWORD_ID_SIZE*u8UserCount;
+		for (i = 0; i < PASSWORD_ID_SIZE; i++) {
+			EEPROM_u8ReadByte(u8ID_index+i,&u8id_element);
+			UART_vidSendByte(u8id_element);
+		}
+		UART_vidSendByte('\r');
+		u8UserCount++;
+	}while(u8UserCount <=  u8RegisteredUsersCount);
 }
 
 void PASSWORD_vidShowPassword(void) {
+	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	u8UserCount = 0;
 	u8 u8Password_element;
-	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
-		EEPROM_u8ReadByte(PASSWORD_PASSWORD_START+i,&u8Password_element);
-		UART_vidSendByte(u8Password_element);		
+	do {
+		u8Password_index = PASSWORD_PASSWORD_START+PASSWORD_PASSWORD_SIZE*u8UserCount;
+		for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
+			EEPROM_u8ReadByte(u8Password_index+i,&u8Password_element);
+			UART_vidSendByte(u8Password_element);		
+		}
+		UART_vidSendByte('\r');
+		u8UserCount++;
+	}while (u8UserCount <= u8RegisteredUsersCount);
+}
+
+void PASSWORD_vidEraseData(void) {
+	//Resetting user count
+	u8Flag = EEPROM_u8WriteByte(PASSWORD_REGISTERED_USERS,0);	
+	if (u8Flag == 1) {
+		UART_vidSendString("Resetting user count.\r");
 	}
-	UART_vidSendByte('\r');
+	else {
+		UART_vidSendString("Error resetting user count.\r");
+	}
+
 }

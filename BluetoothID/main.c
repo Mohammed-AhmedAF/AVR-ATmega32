@@ -13,19 +13,20 @@
 #include "EEPROM_interface.h"
 
 extern u8 u8PasswordMatch;
-u8 u8UserChoicei = 0;
+u8 u8UserChoice = 0;
 void vidInit(void);
 
 int main(void) {
 	vidInit();
 	while(1) {
 		UART_vidSendString("1) Show ID, 2) Register ID, 3) Show count");
+		UART_vidSendString("4) Erase data");
 		UART_vidSendByte('\r');
 		u8UserChoice = UART_u8ReceiveByte(); //Receiving user choice
 		switch(u8UserChoice){
 			case '1': //Show ID
-				PASSWORD_vidShowID();
-				PASSWORD_vidShowPassword();
+				PASSWORD_vidShowID(); //Will show all IDs
+				PASSWORD_vidShowPassword(); //Will show all passwords
 				break;
 			case '2': //Register ID
 				PASSWORD_vidRegisterID();
@@ -39,11 +40,16 @@ int main(void) {
 			case '3': //Show currently registered users
 				PASSWORD_vidShowRegUsersCount();
 				break;
+			case '4':
+				PASSWORD_vidEraseData();
+				break;
 			default:
 				UART_vidSendString("Invalid choice\r");
 		}
 	}
+	return 0;
 }
+
 void vidInit(void) {
 	UART_vidInit();
 	EEPROM_vidInit();
