@@ -51,7 +51,7 @@ void PASSWORD_vidRegisterPassword(void) {
 			UART_vidSendString("Passwords don't match.\r");
 			break;
 		}
-		else if ((i == 3) && (u8Password[i] == u8Password[i])) {
+		else if ((i == PASSWORD_PASSWORD_SIZE-1) && (u8Password[i] == u8Password[i])) {
 			UART_vidSendString("Password match.\r");
 			u8PasswordMatch = 1;
 		}
