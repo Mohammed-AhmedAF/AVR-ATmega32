@@ -148,7 +148,7 @@ void PASSWORD_vidShowID(u8 u8UsersCountCpy) {
 		}
 		UART_vidSendByte('\r');
 		u8UserCount++;
-	}while(u8UserCount <=  u8UsersCountCpy);
+	}while(u8UserCount <  u8UsersCountCpy);
 }
 
 void PASSWORD_vidShowPassword(u8 u8UsersCountCpy) {
@@ -162,7 +162,7 @@ void PASSWORD_vidShowPassword(u8 u8UsersCountCpy) {
 		}
 		UART_vidSendByte('\r');
 		u8UserCount++;
-	}while (u8UserCount <= u8UsersCountCpy);
+	}while (u8UserCount < u8UsersCountCpy);
 }
 
 void PASSWORD_vidShowData(void) {
