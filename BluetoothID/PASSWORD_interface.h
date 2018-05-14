@@ -7,6 +7,10 @@
 #define PASSWORD_PASSWORD_START 50 //The address of the first character in the first password
 #define PASSWORD_ID_START 10
 #define PASSWORD_REGISTERED_USERS 1
+
+#define PASSWORD_IDFOUND 1
+#define PASSWORD_IDNOTFOUND 0
+
 void PASSWORD_vidGetID(void);
 void PASSWORD_vidRegisterID(void);
 void PASSWORD_vidRegisterPassword(void);
@@ -17,5 +21,6 @@ void PASSWORD_vidShowID(u8);
 void PASSWORD_vidShowPassword(u8);
 void PASSWORD_vidShowData(void);
 void PASSWORD_vidEraseData(void);
+u8 PASSWORD_vidLogin(void);
 
 #endif

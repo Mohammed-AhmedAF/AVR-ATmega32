@@ -12,7 +12,7 @@
 #include "TWI_interface.h"
 
 u8 u8ID[10];
-u8 i;
+u8 i,j;
 u8 element;
 u8 u8Password[10];
 u8 u8PasswordRe[10];
@@ -68,9 +68,9 @@ void PASSWORD_vidGetID(void) {
 
 void PASSWORD_vidSaveData(void) {
 	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
-	u8 u8Password_index = PASSWORD_PASSWORD_START+PASSWORD_ID_SIZE*u8RegisteredUsersCount;
+	u8 u8Password_index = PASSWORD_PASSWORD_START+PASSWORD_PASSWORD_SIZE*u8RegisteredUsersCount;
 
-	u8 u8ID_index = PASSWORD_ID_START+PASSWORD_PASSWORD_SIZE*u8RegisteredUsersCount;
+	u8 u8ID_index = PASSWORD_ID_START+PASSWORD_ID_SIZE*u8RegisteredUsersCount;
 	//Store ID
 	u8 u8ID_element, u8Password_element;
 	/*Saving ID*/
@@ -107,7 +107,7 @@ void PASSWORD_vidSaveData(void) {
 			UART_vidSendString("!\r");
 		}	
 		else {
-			UART_vidSendString("!\r");
+			UART_vidSendString("?\r");
 		}
 
 	}
@@ -129,11 +129,12 @@ void PASSWORD_vidShowRegUsersCount(void) {
 	//Can't view the registeredUsersCount
 	if (u8Flag == 1) {
 		u8test = u8RegisteredUsersCount;
+		UART_vidSendString("User count is ");
 		UART_vidSendByte(u8test+'0');
 		UART_vidSendByte('\r');
 	}
 	else {
-		UART_vidSendString("Error reading count");
+		UART_vidSendString("Error reading count\r");
 	}
 }
 
@@ -186,4 +187,34 @@ void PASSWORD_vidEraseData(void) {
 		UART_vidSendString("Error resetting user count.\r");
 	}
 
+}
+
+u8 PASSWORD_vidLogin(void) {
+	//Displaying a message
+	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
+	u8 u8ID_entered[PASSWORD_ID_SIZE];
+	//Ask user for ID
+	UART_vidSendString("ID:  \r");
+	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
+		u8ID_entered[i] = UART_u8ReceiveByte();
+	}
+	for (i = 0; i < u8RegisteredUsersCount;i++) {
+		//Loading ID from EEPROM
+		u8ID_index = PASSWORD_ID_START + PASSWORD_ID_SIZE*i;
+		for (j = 0; j < PASSWORD_ID_SIZE; j++) {
+			EEPROM_u8ReadByte(u8ID_index+j,&u8ID[j]);
+		}
+		//Checking entered ID with ID loaded from EEPROM
+		for (j = 0; j < PASSWORD_ID_SIZE; j++) {
+			if (u8ID[j] != u8ID_entered[j]) {
+				break;
+			}
+			if (u8ID[PASSWORD_ID_SIZE-1] == u8ID_entered[PASSWORD_ID_SIZE-1]) {
+				UART_vidSendString("ID found\r");	
+				return PASSWORD_IDFOUND;
+			}
+		}
+	}
+	UART_vidSendString("ID not found\r");
+	return PASSWORD_IDNOTFOUND;
 }

@@ -20,7 +20,7 @@ int main(void) {
 	vidInit();
 	while(1) {
 		UART_vidSendString("1) Show ID, 2) Register ID, 3) Show count");
-		UART_vidSendString("4) Erase data");
+		UART_vidSendString("4) Erase data 5) Login");
 		UART_vidSendByte('\r');
 		u8UserChoice = UART_u8ReceiveByte(); //Receiving user choice
 		switch(u8UserChoice){
@@ -41,6 +41,9 @@ int main(void) {
 				break;
 			case '4':
 				PASSWORD_vidEraseData();
+				break;
+			case '5': //Login
+				PASSWORD_vidLogin();
 				break;
 			default:
 				UART_vidSendString("Invalid choice\r");
