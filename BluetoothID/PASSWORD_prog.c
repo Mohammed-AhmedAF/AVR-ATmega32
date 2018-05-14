@@ -25,7 +25,7 @@ u8 u8RegisteredUsersCount = '0';
 
 void PASSWORD_vidRegisterID(void) {
 	UART_vidSendString("Enter ID (3 digits): \r");
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < PASSWORD_ID_SIZE; i++) {
 		element = UART_u8ReceiveByte();
 		u8ID[i] = element;
 	}
