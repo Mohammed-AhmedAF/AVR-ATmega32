@@ -188,8 +188,15 @@ void PASSWORD_vidEraseData(void) {
 	}
 
 }
+void PASSWORD_vidLogin(void) {
+	u8 u8AskIDSuccess;
+	u8AskIDSuccess = PASSWORD_u8AskID();
+	if (u8AskIDSuccess != -1) {
+		PASSWORD_u8AskPassword(u8AskIDSuccess);
+	}
+}
 
-u8 PASSWORD_vidLogin(void) {
+u8 PASSWORD_u8AskID(void) {
 	//Displaying a message
 	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
 	u8 u8ID_entered[PASSWORD_ID_SIZE];
@@ -211,10 +218,32 @@ u8 PASSWORD_vidLogin(void) {
 			}
 			if (u8ID[PASSWORD_ID_SIZE-1] == u8ID_entered[PASSWORD_ID_SIZE-1]) {
 				UART_vidSendString("ID found\r");	
-				return PASSWORD_IDFOUND;
+				return i; //Return the ID index
 			}
 		}
 	}
 	UART_vidSendString("ID not found\r");
 	return PASSWORD_IDNOTFOUND;
+}
+
+u8 PASSWORD_u8AskPassword(u8 u8UserIndexCpy) { 
+	u8 u8PasswordChar_registered;
+	//Asking user to enter password
+	UART_vidSendString("Password: \r");
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
+		u8Password[i] = UART_u8ReceiveByte();					
+	}
+	//Comparing the entered password to registered password
+	u8Password_index = PASSWORD_PASSWORD_START + PASSWORD_PASSWORD_SIZE*u8UserIndexCpy;
+	for (i = 0; i < PASSWORD_PASSWORD_SIZE; i++) {
+		EEPROM_u8ReadByte(u8Password_index+i,&u8PasswordChar_registered);
+		if (u8Password[i] != u8PasswordChar_registered) {
+			UART_vidSendString("Wrong password\r");
+			return PASSWORD_WRONGPASSWORD;
+		}
+		else if (u8Password[PASSWORD_PASSWORD_SIZE-1]==u8PasswordChar_registered) {
+			UART_vidSendString("Login successful\r");
+			return PASSWORD_CORRECTPASSWORD;
+		}
+	}
 }

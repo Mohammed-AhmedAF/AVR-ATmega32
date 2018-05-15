@@ -8,8 +8,9 @@
 #define PASSWORD_ID_START 10
 #define PASSWORD_REGISTERED_USERS 1
 
-#define PASSWORD_IDFOUND 1
-#define PASSWORD_IDNOTFOUND 0
+#define PASSWORD_IDNOTFOUND -1
+#define PASSWORD_WRONGPASSWORD -1
+#define PASSWORD_CORRECTPASSWORD 1
 
 void PASSWORD_vidGetID(void);
 void PASSWORD_vidRegisterID(void);
@@ -21,6 +22,7 @@ void PASSWORD_vidShowID(u8);
 void PASSWORD_vidShowPassword(u8);
 void PASSWORD_vidShowData(void);
 void PASSWORD_vidEraseData(void);
-u8 PASSWORD_vidLogin(void);
-
+void PASSWORD_vidLogin(void);
+u8 PASSWORD_u8AskID(void);
+u8 PASSWORD_u8AskPassword(u8);
 #endif
