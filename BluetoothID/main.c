@@ -25,10 +25,10 @@ int main(void) {
 		UART_vidSendByte('\r');
 		u8UserChoice = UART_u8ReceiveByte(); //Receiving user choice
 		switch(u8UserChoice){
-			case '1': //Show ID
+			case '1': //Show ID and password of all registered users
 				PASSWORD_vidShowData();
 				break;
-			case '2': //Register ID
+			case '2': //Register a new user
 				PASSWORD_vidRegisterID();
 				PASSWORD_vidRegisterPassword();
 				if (u8PasswordMatch == 1) {
@@ -41,7 +41,7 @@ int main(void) {
 			case '4': //To reset user count
 				PASSWORD_vidEraseData();
 				break;
-			case '5': //Login
+			case '5': //Login, will ask user to enter ID and password
 				PASSWORD_vidLogin(); 
 				break;
 			default:
