@@ -30,10 +30,8 @@ int main(void) {
 				break;
 			case '2': //Register ID
 				PASSWORD_vidRegisterID();
-				PASSWORD_vidGetID();
 				PASSWORD_vidRegisterPassword();
 				if (u8PasswordMatch == 1) {
-					UART_vidSendString("Saving..\r");
 					PASSWORD_vidSaveData();
 				}
 				break;
