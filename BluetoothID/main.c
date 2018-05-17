@@ -38,7 +38,7 @@ int main(void) {
 			case '3': //Show currently registered users
 				PASSWORD_vidShowRegUsersCount();
 				break;
-			case '4':
+			case '4': //To reset user count
 				PASSWORD_vidEraseData();
 				break;
 			case '5': //Login
