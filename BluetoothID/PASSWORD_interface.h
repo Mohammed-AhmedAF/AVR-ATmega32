@@ -22,7 +22,7 @@ void PASSWORD_vidShowID(u8);
 void PASSWORD_vidShowPassword(u8);
 void PASSWORD_vidShowData(void);
 void PASSWORD_vidEraseData(void);
-void PASSWORD_vidLogin(void);
+u8 PASSWORD_vidLogin(void);
 u8 PASSWORD_u8AskID(void);
 u8 PASSWORD_u8AskPassword(u8);
 #endif

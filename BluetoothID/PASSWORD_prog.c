@@ -191,11 +191,11 @@ void PASSWORD_vidEraseData(void) {
 	}
 
 }
-void PASSWORD_vidLogin(void) {
+u8 PASSWORD_vidLogin(void) {
 	u8 u8UserIndex;
 	u8UserIndex = PASSWORD_u8AskID();
 	if (u8UserIndex != -1) { //User ID is registered
-		PASSWORD_u8AskPassword(u8AskIDSuccess);
+		return PASSWORD_u8AskPassword(u8UserIndex);
 	}
 }
 
