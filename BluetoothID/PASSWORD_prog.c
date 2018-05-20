@@ -67,6 +67,9 @@ void PASSWORD_vidGetID(void) {
 }
 
 void PASSWORD_vidSaveData(void) {
+
+	UART_vidSendString("Saving..\r");
+	//Loading userCount to be used for indexing the ID and password being saved
 	EEPROM_u8ReadByte(PASSWORD_REGISTERED_USERS,&u8RegisteredUsersCount);
 	u8 u8Password_index = PASSWORD_PASSWORD_START+PASSWORD_PASSWORD_SIZE*u8RegisteredUsersCount;
 
@@ -189,9 +192,9 @@ void PASSWORD_vidEraseData(void) {
 
 }
 void PASSWORD_vidLogin(void) {
-	u8 u8AskIDSuccess;
-	u8AskIDSuccess = PASSWORD_u8AskID();
-	if (u8AskIDSuccess != -1) {
+	u8 u8UserIndex;
+	u8UserIndex = PASSWORD_u8AskID();
+	if (u8UserIndex != -1) { //User ID is registered
 		PASSWORD_u8AskPassword(u8AskIDSuccess);
 	}
 }
