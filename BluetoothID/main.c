@@ -11,10 +11,12 @@
 #include "UART_interface.h"
 #include "PASSWORD_interface.h"
 #include "EEPROM_interface.h"
+#include "PREPHIRALS_interface.h"
 
 extern u8 u8PasswordMatch;
 u8 u8UserChoice = 0;
 void vidInit(void);
+u8 u8LoginResult;
 
 int main(void) {
 	vidInit();
@@ -42,7 +44,10 @@ int main(void) {
 				PASSWORD_vidEraseData();
 				break;
 			case '5': //Login, will ask user to enter ID and password
-				PASSWORD_vidLogin(); 
+				u8LoginResult =	PASSWORD_vidLogin(); 
+				if (u8LoginResult = PASSWORD_CORRECTPASSWORD) { //If password is correct
+					vid_ChoosePrephiral();
+				}
 				break;
 			default:
 				UART_vidSendString("Invalid choice\r");

@@ -8,7 +8,7 @@
 
 MAIN = main.c
 CC = avr-gcc
-SRC = $(MAIN) DIO_prog.c UART_prog.c TWI_prog.c EEPROM_prog.c PASSWORD_prog.c
+SRC = $(MAIN) DIO_prog.c UART_prog.c TWI_prog.c EEPROM_prog.c PASSWORD_prog.c PREPHIRALS_prog.c
 CFLAGS = -mmcu=atmega32 -I . -O3
 
 PRO = avrdude
