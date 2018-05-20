@@ -46,7 +46,7 @@ int main(void) {
 			case '5': //Login, will ask user to enter ID and password
 				u8LoginResult =	PASSWORD_vidLogin(); 
 				if (u8LoginResult = PASSWORD_CORRECTPASSWORD) { //If password is correct
-					PREPHIRALS_vidChoosePrephiral();
+					PREPHIRALS_vidChoosePrephiral(); //Select motor or LED
 				}
 				break;
 			default:
