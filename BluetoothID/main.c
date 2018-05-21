@@ -1,7 +1,10 @@
 /*
  * Author: Mohammed Ahmed Abd Al-Fattah
  * File: main.c
- * 
+ * Purpose of project: The project allows storing IDs 
+ * and passwords for 10 users and retreiving them from
+ * EEPROM. After successful login, the user can control 
+ * LED (on, off), and DC motor speed.
  */
 
 
@@ -49,8 +52,6 @@ int main(void) {
 					PREPHIRALS_vidChoosePrephiral(); //Select motor or LED
 				}
 				break;
-			case '0':
-				UART_
 			default:
 				UART_vidSendString("Invalid choice\r");
 		}
