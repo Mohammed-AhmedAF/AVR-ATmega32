@@ -49,6 +49,8 @@ int main(void) {
 					PREPHIRALS_vidChoosePrephiral(); //Select motor or LED
 				}
 				break;
+			case '0':
+				UART_
 			default:
 				UART_vidSendString("Invalid choice\r");
 		}
@@ -59,5 +61,6 @@ int main(void) {
 void vidInit(void) {
 	UART_vidInit();
 	EEPROM_vidInit();
+	PREPHIRALS_vidInit();
 }
 
