@@ -24,7 +24,6 @@ u8 u8keyPressed;
 
 int main(void) {	
 	vidInit();
-	UART_vidInit();
 	while(1) {
 		vidSelectSpeed();	
 	}
@@ -32,9 +31,12 @@ int main(void) {
 }
 
 void vidInit(void) {
+	/*Timer Initiation*/
 	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN5,DIO_OUTPUT); //Output pin for OC1A
 	TIMER1_vidInit(TIMER1_WGM_FPWM_OCR,TIMER1_COM1A_CLEAR,TIMER1_COM1B_NORMAL,TIMER1_CLK_1);
 	TIMER1_vidSetOCRA(600);
+	/*UART initiation*/
+	UART_vidInit();
 }
 
 void vidSelectSpeed(void) {
