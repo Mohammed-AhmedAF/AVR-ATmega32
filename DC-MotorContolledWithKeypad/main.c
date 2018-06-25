@@ -24,8 +24,6 @@ u16 u16Speeds_Array[5] = {700,600,500,400,300};
 void (*ptrFunc) (void);
 
 int main(void) {	
-	LCD_vidInit();
-	KEYPAD_vidInit();
 	vidInit();
 
 	while(1) {
@@ -35,9 +33,13 @@ int main(void) {
 }
 
 void vidInit(void) {
+	/**Timer initiation**/
 	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN5,DIO_OUTPUT); //Output pin for OC1A
 	TIMER1_vidInit(TIMER1_WGM_FPWM_OCR,TIMER1_COM1A_CLEAR,TIMER1_COM1B_NORMAL,TIMER1_CLK_1);
 	TIMER1_vidSetOCRA(600);
+
+	LCD_vidInit();
+	KEYPAD_vidInit();
 }
 
 void vidSelectSpeed(void) {
