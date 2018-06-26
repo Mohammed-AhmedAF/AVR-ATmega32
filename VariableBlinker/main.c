@@ -1,3 +1,11 @@
+/*
+ * Author: Mohamed Ahmed Abd Al-FattahS
+ * Date: 26-6-2018
+ * Project: VariableBlinker
+ * The aim is to blink a LED with a variable rate
+ * The LED will blink on two rates, changed by a button.
+ */
+
 #include "Macros.h"
 #include "Std_Types.h"
 #include "DIO_interface.h"
