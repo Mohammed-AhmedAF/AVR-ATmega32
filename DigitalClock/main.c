@@ -34,17 +34,17 @@ void vidCount(void) {
 				LCD_vidGoToXY(7,0);
 				LCD_vidWriteNumber(sec);
 			}
-			else if (sec == 10) {
-				LCD_vidWriteInPlace(6,'1');
-				LCD_vidWriteInPlace(7,'0');
-			}
 			else {
 				LCD_vidGoToXY(6,0);
-				LCD_vidWriteNumber(sec);
+				LCD_vidWriteNumber(sec/10);
+				LCD_vidGoToXY(7,0);
+				LCD_vidWriteNumber(sec%10);
 			}
 		}
 		else {
 			sec = 0;
+			LCD_vidGoToXY(6,0);
+			LCD_vidWriteCharacter('0');
 			LCD_vidGoToXY(7,0);
 			LCD_vidWriteNumber(sec);
 			min++;
