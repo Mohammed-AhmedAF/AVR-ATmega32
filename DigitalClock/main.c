@@ -12,6 +12,8 @@
 #include "INTERRUPTS_interface.h"
 
 
+#define SHIFT 4
+
 /*Global variables*/
 volatile u8 hour = 0;
 volatile u8 min = 0;
@@ -28,37 +30,40 @@ void vidCount(void) {
 		u32OVFCount = 0;
 		sec++;
 		if (sec < 60) {
-			if (sec < 10){
-				LCD_vidGoToXY(6,0);
-				LCD_vidWriteNumber(0);
-				LCD_vidGoToXY(7,0);
-				LCD_vidWriteNumber(sec);
-			}
-			else {
-				LCD_vidGoToXY(6,0);
-				LCD_vidWriteNumber(sec/10);
-				LCD_vidGoToXY(7,0);
-				LCD_vidWriteNumber(sec%10);
-			}
+			/*Writing seconds*/
+			LCD_vidGoToXY(6+SHIFT,0);
+			LCD_vidWriteNumber(sec/10);
+			LCD_vidGoToXY(7+SHIFT,0);
+			LCD_vidWriteNumber(sec%10);
+
 		}
 		else {
 			sec = 0;
-			LCD_vidGoToXY(6,0);
+			LCD_vidGoToXY(6+SHIFT,0);
 			LCD_vidWriteCharacter('0');
-			LCD_vidGoToXY(7,0);
+			LCD_vidGoToXY(7+SHIFT,0);
 			LCD_vidWriteNumber(sec);
 			min++;
-			LCD_vidGoToXY(4,0);
-			LCD_vidWriteNumber(min);
-			if (min == 59) {
+			if (min < 60) {
+				/*Writing minutes*/
+				LCD_vidGoToXY(3+SHIFT,0);
+				LCD_vidWriteNumber(min/10);
+				LCD_vidGoToXY(4+SHIFT,0);
+				LCD_vidWriteNumber(min%10);
+			}
+			else  {
 				min = 0;
 				hour++;
-				if (hour == 24) {
-					hour = 0;
+				if (hour < 24) {
+					/*Writing hours*/
+					LCD_vidGoToXY(0+SHIFT,0);
+					LCD_vidWriteNumber(hour/10);
+					LCD_vidGoToXY(0+SHIFT,1);
+					LCD_vidWriteNumber(hour%10);
+
 				}
 				else {
-					LCD_vidGoToXY(0,0);
-					LCD_vidWriteNumber(hour);
+					hour = 0;
 				}
 			}
 		}
@@ -69,14 +74,14 @@ void vidCount(void) {
 void vidInitClock(void) {
 	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
 	LCD_vidSendCommand(LCD_RETURN_HOME);
-	LCD_vidWriteCharacter('0');
-	LCD_vidWriteCharacter('0');
-	LCD_vidWriteCharacter(':');
-	LCD_vidWriteCharacter('0');
-	LCD_vidWriteCharacter('0');
-	LCD_vidWriteCharacter(':');
-	LCD_vidWriteCharacter('0');
-	LCD_vidWriteCharacter('0');
+	LCD_vidWriteInPlace(0+SHIFT,'0');
+	LCD_vidWriteInPlace(1+SHIFT,'0');
+	LCD_vidWriteInPlace(2+SHIFT,':');
+	LCD_vidWriteInPlace(3+SHIFT,'0');
+	LCD_vidWriteInPlace(4+SHIFT,'0');
+	LCD_vidWriteInPlace(5+SHIFT,':');
+	LCD_vidWriteInPlace(6+SHIFT,'0');
+	LCD_vidWriteInPlace(7+SHIFT,'0');
 }
 
 void main(void) {
