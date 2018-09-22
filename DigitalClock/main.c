@@ -116,7 +116,7 @@ void main(void) {
 
 void vidIncrementHour(void) {
 		hour++;
-		if (hour < 23) {
+		if (hour < 24) {
 			LCD_vidGoToXY(0+SHIFT,0);	
 			LCD_vidWriteNumber(hour/10);
 			LCD_vidGoToXY(1+SHIFT,0);
