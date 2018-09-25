@@ -95,13 +95,13 @@ void main(void) {
 	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN2,DIO_INPUT);
 	DIO_vidSetPinValue(DIO_PORTD,DIO_PIN2,STD_HIGH);
 	/*Setting External Interrupt pin direction as Input*/
-	
+
 	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN2,DIO_INPUT);
 	TIMER0_vidInit(TIMER0_WGM_NORMAL,TIMER0_COM_NORMAL,TIMER0_CLK_1);
-	
+
 	INTERRUPTS_vidSetGlobalInterruptFlag();
 
-	
+
 	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_TOIE_0);
 	INTERRUPTS_vidPutISRFunction(vidCount,INTERRUPTS_USUAL);
 
@@ -115,15 +115,16 @@ void main(void) {
 }
 
 void vidIncrementHour(void) {
-		hour++;
-		if (hour > 24) {
-			hour = 0;
-		}
-		LCD_vidGoToXY(0+SHIFT,0);
-		LCD_vidWriteNumber(hour/10);
-		LCD_vidGoToXY(1+SHIFT,0);
-		LCD_vidWriteNumber(hour%10);
+	hour++;
+	if (hour > 24) {
+		hour = 0;
+	}
+	LCD_vidGoToXY(0+SHIFT,0);
+	LCD_vidWriteNumber(hour/10);
+	LCD_vidGoToXY(1+SHIFT,0);
+	LCD_vidWriteNumber(hour%10);
 }
+
 
 void vidInitClock(void) {
 	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
