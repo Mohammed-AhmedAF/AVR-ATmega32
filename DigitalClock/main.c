@@ -1,4 +1,4 @@
-/*
+/*
  * Author: Mohammed Ahmed Abd Al-Fattah
  * Project: Digital Clock for AVR Atmega32 
  *
@@ -28,6 +28,7 @@ volatile u8 u8AlarmMin = 5;
 void vidCount(void);
 void vidInitClock(void);
 void vidIncrementHour(void);
+void vidIncrementMinute(void);
 void vidCheckMinute(u8);
 void vidSetAlarm(void);
 
@@ -91,23 +92,31 @@ void main(void) {
 	/*Initialization*/
 	LCD_vidInit();
 	vidInitClock();
+
+	/*Setting External Interrupt pin direction as Input*/
 	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN2,DIO_INPUT);
 	DIO_vidSetPinValue(DIO_PORTD,DIO_PIN2,STD_HIGH);
-	/*Setting External Interrupt pin direction as Input*/
+	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN3,DIO_INPUT);
+	DIO_vidSetPinValue(DIO_PORTD,DIO_PIN3,STD_HIGH);
 
-	DIO_vidSetPinDirection(DIO_PORTD,DIO_PIN2,DIO_INPUT);
+	/*Setting Timer 0, used for counting*/
 	TIMER0_vidInit(TIMER0_WGM_NORMAL,TIMER0_COM_NORMAL,TIMER0_CLK_1);
-
-	INTERRUPTS_vidSetGlobalInterruptFlag();
-
-
+	/*Setting interrupt for Timer 0*/
 	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_TOIE_0);
 	INTERRUPTS_vidPutISRFunction(vidCount,INTERRUPTS_USUAL);
 
+	/*Setting External Interrupt 0, used for incrementing hours*/
 	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_INT_0); 
 	INTERRUPTS_vidPutISRFunction(vidIncrementHour,INTERRUPTS_INT_0);
 	INTERRUPTS_vidSetSenseControl(INTERRUPTS_INT_0,INTERRUPTS_SC_FALLING);
 
+	/*Setting External Interrupt 1, used for incrementing minutes*/
+	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_INT_1);
+	INTERRUPTS_vidPutISRFunction(vidIncrementMinute,INTERRUPTS_INT_1);
+	INTERRUPTS_vidSetSenseControl(INTERRUPTS_INT_1,INTERRUPTS_SC_FALLING);
+	
+	/*Setting global interrupt flag*/	
+	INTERRUPTS_vidSetGlobalInterruptFlag();
 
 	while(1) {
 	}
@@ -122,6 +131,17 @@ void vidIncrementHour(void) {
 	LCD_vidWriteNumber(hour/10);
 	LCD_vidGoToXY(1+SHIFT,0);
 	LCD_vidWriteNumber(hour%10);
+}
+
+void vidIncrementMinute(void) {
+	min++;
+	if (min > 59) {
+		min = 0;
+	}
+	LCD_vidGoToXY(3+SHIFT,0);
+	LCD_vidWriteNumber(min/10);
+	LCD_vidGoToXY(4+SHIFT,0);
+	LCD_vidWriteNumber(min%10);
 }
 
 
