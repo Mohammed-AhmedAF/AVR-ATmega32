@@ -12,7 +12,6 @@
 #include "INTERRUPTS_interface.h"
 #include "KEYPAD_interface.h"
 #include "SERVICES_interface.h"
-#include <util/delay.h>
 
 #define SHIFT 4
 
