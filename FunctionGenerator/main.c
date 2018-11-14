@@ -10,6 +10,11 @@
 #include "TIMER0_interface.h"
 #include "INTERRUPTS_interface.h"
 
+/*Macro functions that help the programmer understand code*/
+/*I am using a PNP transistor so the BASE is off when current flows into it*/
+#define BASE_OFF(PORT,PIN) SET_BIT(PORT,PIN)
+#define BASE_ON(PORT,PIN) CLEAR_BIT(PORT,PIN)
+
 #define UP 1
 #define DOWN 0
 
@@ -17,11 +22,13 @@ void vidCount(void);
 
 volatile u32 u32OVFCount;
 volatile u8 u8Flag;
+volatile u8 u8DownCount;
 
 void main(void) {
 	/*Initiation*/
 	u32OVFCount = 0;
 	u8Flag = UP;
+	u8DownCount = 0;
 
 	DIO_vidSetPinDirection(DIO_PORTA,DIO_PIN0,DIO_OUTPUT);
 
@@ -37,14 +44,18 @@ void main(void) {
 /*50% Duty cycle*/
 void vidCount(void) {
 	u32OVFCount++;
-	if (u32OVFCount == 3125) {
+	if (u32OVFCount == 40) {
 		if (u8Flag == UP) {
-			u8Flag = DOWN;
-			CLEAR_BIT(PORTA,DIO_PIN0);
+			BASE_OFF(PORTA,DIO_PIN0);
+			u8DownCount++;
+			if (u8DownCount == 14) {
+				u8Flag = DOWN;
+				u8DownCount = 0;
+			}
 		}
 		else {
 			u8Flag = UP;
-			SET_BIT(PORTA,DIO_PIN0);
+			BASE_ON(PORTA,DIO_PIN0);
 		}
 		u32OVFCount = 0;
 	}
