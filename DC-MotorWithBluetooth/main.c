@@ -42,23 +42,28 @@ void vidInit(void) {
 void vidSelectSpeed(void) {
 	do {
 		u8keyPressed = UART_u8ReceiveByte();
-		if (u8keyPressed == '1') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[0]);
-		}
-		else if (u8keyPressed == '2') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[1]);
-		}
-		else if (u8keyPressed == '3') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[2]);
-		}
-		else if (u8keyPressed == '4') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[3]);
-		}
-		else if (u8keyPressed == '5') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[4]);
-		}
-		else if (u8keyPressed == '6') {
-			TIMER1_vidSetOCRA(u16Speeds_Array[5]);
+		switch(u8keyPressed) {
+			case '1':
+				TIMER1_vidSetOCRA(u16Speeds_Array[0]);
+				break;
+			case '2':
+				TIMER1_vidSetOCRA(u16Speeds_Array[1]);
+				break;
+			case '3':
+				TIMER1_vidSetOCRA(u16Speeds_Array[2]);
+				break;
+			case '4':
+				TIMER1_vidSetOCRA(u16Speeds_Array[3]);
+				break;
+			case '5':
+				TIMER1_vidSetOCRA(u16Speeds_Array[4]);
+				break;
+			case '6':
+				TIMER1_vidSetOCRA(u16Speeds_Array[5]);
+				break;
+			case '7':
+				TIMER1_vidSetOCRA(u16Speeds_Array[6]);
+				break;
 		}	
 	}while(1);
 }
