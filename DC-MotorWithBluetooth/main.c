@@ -1,5 +1,5 @@
 
-/* Name: Mohamed Ahmed Abd Al-Fattah Mahmoud
+/*Name: Mohamed Ahmed Abd Al-Fattah Mahmoud
  * Date: 28-4-2018 (First completion)
  * Update: Make a DC motor speed controller with Bluetooth.
  * There are six speeds (1,2,3,4,5,6).
@@ -17,9 +17,7 @@
 void vidInit(void);
 void vidSelectSpeed(void);
 
-u16 u16Count;
 u16 u16Speeds_Array[6] = {700,600,500,400,300,200};
-void (*ptrFunc) (void);
 u8 u8keyPressed;
 
 int main(void) {	
