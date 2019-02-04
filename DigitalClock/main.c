@@ -1,6 +1,6 @@
 /*
  * Author: Mohammed Ahmed Abd Al-Fattah
- * Project: Digital Clock for AVR Atmega32 
+ * Project: Digital Clock for AVR ATmega32 
  *
  */
 
@@ -84,7 +84,6 @@ void vidCount(void) {
 			}
 		}
 	}
-
 }
 
 
