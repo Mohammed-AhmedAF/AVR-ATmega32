@@ -10,17 +10,28 @@
 #include "LCD_interface.h"
 #include "CLOCK_interface.h"
 
+/*Global variables modified in ISR*/
 volatile u8 u8AlarmFlag = 1;
 volatile u32 u32OvFCount;
 volatile u8 u8Sec = 0;
-volatile u8 u8Minute = 56;
-volatile u8 u8Hours = 8;
+volatile u8 u8Minute = 33;
+volatile u8 u8Hours = 2;
 volatile u8 u8AlarmMinute = 3;
+
+/*This macro will be changed according to 
+ *the clock source provided to timer and
+ *the timer MAX count.
+ * */
+#define CLOCK_SEC_OVFCOUNT 31250
+
+/*This macro is used to shift the clock digits
+ *on LCD row.
+ * */
 #define  LCD_XPOS_SHIFT 6
 
 void CLOCK_vidCount(void) {
 	u32OvFCount++;
-	if (u32OvFCount == 31250) {
+	if (u32OvFCount == CLOCK_SEC_OVFCOUNT) {
 		u32OvFCount = 0;
 		u8Sec++;
 		if (u8Sec == 60) {
@@ -45,6 +56,16 @@ void CLOCK_vidCount(void) {
 		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS5,':');
 		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS6,u8Sec/10+'0');
 		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS7,u8Sec%10+'0');
+#ifdef CLOCK_AMPM_SWITCH
+		if (u8Hours <= 12) {
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,'A');
+			LCD_vidWriteInPlace(16,'M');
+		}
+		else {
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,'P');
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS10,'M');
+		}
+#endif
 	}
 
 }
