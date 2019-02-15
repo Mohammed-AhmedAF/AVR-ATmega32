@@ -1,6 +1,6 @@
 /*
  * Author: Mohamed Ahmed Abd Al-Fattah
- * Purpose; Clock with alarm
+ * Purpose: Clock with alarm
  *
  */
 
@@ -10,6 +10,7 @@
 #include "TIMER0_interface.h"
 #include "INTERRUPTS_private.h"
 #include "INTERRUPTS_interface.h"
+#include "KEYPAD_interface.h"
 #include "LCD_interface.h"
 #include "CLOCK_interface.h"
 
@@ -20,11 +21,6 @@ void main(void) {
 	INTERRUPTS_vidPutISRFunction(CLOCK_vidCount);
 	_Int_EN();
 	LCD_vidInit();
-
-	LCD_vidGoToXY(LCD_XPOS0,1);
 	while(1) {
-		LCD_vidGoToXY(1,2);
-		LCD_vidWriteCharacter('1');
-		LCD_vidWriteCharacter('A');
-	}
+	};
 }
