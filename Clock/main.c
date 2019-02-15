@@ -29,9 +29,7 @@ void main(void) {
 	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_INT_0);
 	INTERRUPTS_vidSetSenseControl(INTERRUPTS_INT_0,INTERRUPTS_SC_ANYCHANGE);
 	_Int_EN(); /*Setting global interrupt flag*/
-	LCD_vidInit();
-	LCD_vidGoToXY(0,1);
-	LCD_vidWriteString("Hello\0");
+	LCD_vidInit(); /*Initializing LCD*/
 	while(1) {
 	};
 }
