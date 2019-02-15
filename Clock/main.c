@@ -15,12 +15,23 @@
 #include "CLOCK_interface.h"
 
 void main(void) {
-
+	/*Configuring Timer0, that is used for
+	 *counting the clock
+	 * */
 	TIMER0_vidInit(TIMER0_COM_NORMAL,TIMER0_WGM_NORMAL,TIMER0_CLK_1);
 	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_TOIE_0);
 	INTERRUPTS_vidPutISRFunction(CLOCK_vidCount);
-	_Int_EN();
+
+	/*Configuration of External Interrupt
+	 *This interrupt is used to suspend timer0 and
+	 *display Clock setting screen
+	 * */
+	INTERRUPTS_vidSetInterruptEnable(INTERRUPTS_INT_0);
+	INTERRUPTS_vidSetSenseControl(INTERRUPTS_INT_0,INTERRUPTS_SC_ANYCHANGE);
+	_Int_EN(); /*Setting global interrupt flag*/
 	LCD_vidInit();
+	LCD_vidGoToXY(0,1);
+	LCD_vidWriteString("Hello\0");
 	while(1) {
 	};
 }

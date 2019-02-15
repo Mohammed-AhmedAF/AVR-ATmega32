@@ -1,14 +1,14 @@
 #
 # Author: Mohammed Ahmed Abd Al-Fattah
 # File: Makefile
-# Purpose: This is a makefile used to compile and load avr projects.
-# The preticular microcontroller I am using this file with is the 
-# Atmega32.
+# Purpose: This is a makefile used to compile and load AVR projects.
+# The particular microcontroller I am using this file with is the 
+# AVR Atmega32.
 #
 
 MAIN = main.c
 CC = avr-gcc
-SRC = $(MAIN) DIO_prog.c LCD_prog.c INTERRUPTS_prog.c TIMER0_prog.c CLOCK_program.c
+SRC = $(MAIN) DIO_prog.c LCD_prog.c INTERRUPTS_prog.c TIMER0_prog.c CLOCK_program.c KEYPAD_prog.c SERVICES_prog.c
 CFLAGS = -mmcu=atmega32 -I . -O3
 
 PRO = avrdude
