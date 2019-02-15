@@ -1,11 +1,14 @@
 #include "Std_Types.h"
 #include "Macros.h"
 #include "DIO_interface.h"
+#include "CLOCK_interface.h"
+#include "INTERRUPTS_private.h"
 #include "INTERRUPTS_interface.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 void (* ISRFunc) (void);
+
 
 void INTERRUPTS_vidSetGlobalInterruptFlag(void) {
 	SET_BIT(SREG,7);
@@ -170,7 +173,8 @@ void INTERRUPTS_vidClearExtInterruptFlag(u8 u8ExtInterruptNumCpy) {
 
 #ifdef EXTERNAL_INTERRUPT_0
 ISR(INT0_vect) {
-	ISRFunc();
+	/*ISRFunc();*/
+	CLOCK_vidSetClock();
 }
 #endif
 

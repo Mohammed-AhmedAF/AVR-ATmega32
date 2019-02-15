@@ -37,4 +37,7 @@ void INTERRUPTS_vidClearInterruptEnable(u8);
 u8 INTERRUPTS_u8CheckExtInterruptFlag(u8);
 void INTERRUPTS_vidClearExtInterruptFlag(u8);
 
+
+#define _Int_EN() SET_BIT(SREG,7)
+
 #endif

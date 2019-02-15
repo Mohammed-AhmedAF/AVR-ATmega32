@@ -5,7 +5,7 @@
 #ifndef LCD_H
 #define LCD_H
 
-#define LCD_DATA_PORT DIO_PORTD
+#define LCD_DATA_PORT DIO_PORTA
 #define LCD_CTRL_PORT DIO_PORTB
 
 #define LCD_D0 0
@@ -33,6 +33,7 @@
 #define LCD_RW 1
 #define LCD_RS 0
 
+/*Macros defined to be used with the GoTOXY function*/
 #define LCD_XPOS0 0
 #define LCD_XPOS1 1
 #define LCD_XPOS2 2
@@ -53,14 +54,19 @@
 #define LCD_XPOS17 17
 #define LCD_XPOS18 18
 #define LCD_XPOS19 19
+/*This macro is used to shift the clock digits
+ *on LCD row.
+ * */
+#define  LCD_XPOS_SHIFT 5
 
+/*Function definitions*/
 void LCD_vidInit(void);
 void LCD_vidSendCommand(u8);
 void LCD_vidWriteCharacter(u8);
 void LCD_vidWriteString(s8*);
 void LCD_vidBlinkString(s8*,u8);
 void LCD_vidWriteSizedString(s8*,u8);
-void LCD_vidGoToXY(s8,s8);
+void LCD_vidGoToXY(u8,u8);
 void LCD_vidWriteNumber(u16);
 void LCD_vidWriteInPlace(u8,u8);
 #endif

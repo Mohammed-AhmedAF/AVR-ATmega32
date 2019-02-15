@@ -16,7 +16,7 @@ volatile u8 u8AlarmFlag = CLOCK_ALARM_CLEARED;
 volatile u32 u32OvFCount;
 volatile u8 u8Sec = 0;
 volatile u8 u8Minute = 33;
-volatile static u8 u8Hours = 21;
+volatile u8 u8Hours = 21;
 volatile u8 u8AlarmMinute = 35;
 
 
