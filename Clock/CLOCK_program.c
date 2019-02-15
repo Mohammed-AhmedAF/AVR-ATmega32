@@ -1,12 +1,13 @@
 /*
  * Author: Mohamed Ahmed Abd Al-Fattah
- * Purpose: CLOCK application module
+ * Purpose: Clock application module
  *
  */
 
 #include "Std_Types.h"
 #include "Macros.h"
 #include "DIO_interface.h"
+#include "SERVICES_interface.h"
 #include "LCD_interface.h"
 #include "CLOCK_interface.h"
 
@@ -15,7 +16,7 @@ volatile u8 u8AlarmFlag = CLOCK_ALARM_CLEARED;
 volatile u32 u32OvFCount;
 volatile u8 u8Sec = 0;
 volatile u8 u8Minute = 33;
-volatile u8 u8Hours = 21;
+volatile static u8 u8Hours = 21;
 volatile u8 u8AlarmMinute = 35;
 
 
@@ -35,6 +36,7 @@ void CLOCK_vidCount(void) {
 			u8Sec = 0;
 			u8Minute++;
 			if (u8AlarmFlag == CLOCK_ALARM_SET) {
+				CLOCK_vidCheckAlarm();
 			}
 			if (u8Minute == 60) {
 				u8Minute = 0;
@@ -83,4 +85,13 @@ void CLOCK_vidCheckAlarm(void) {
 		LCD_vidGoToXY(1,2);
 		LCD_vidWriteString("Alarm");
 	}
+}
+
+/*Function for setting the clock
+ *Called by external interrupt
+ * */
+void CLOCK_vidSetClock(void) {
+	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
+	LCD_vidWriteString("Hours: \0");
+	SERVICES_vidWriteCharacter();
 }
