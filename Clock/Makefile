@@ -8,7 +8,7 @@
 
 MAIN = main.c
 CC = avr-gcc
-SRC = $(MAIN) DIO_prog.c LCD_prog.c INTERRUPTS_prog.c TIMER0_prog.c CLOCK_program.c KEYPAD_prog.c SERVICES_prog.c
+SRC = $(MAIN) DIO_program.c LCD_program.c INTERRUPTS_program.c TIMER0_program.c CLOCK_program.c KEYPAD_program.c SERVICES_program.c
 CFLAGS = -mmcu=atmega32 -I . -O3
 
 PRO = avrdude
