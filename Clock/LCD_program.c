@@ -159,10 +159,7 @@ void LCD_vidWriteCustomChar(u8 u8LocationCpy) {
 	LCD_vidWriteCharacter(0x00+u8LocationCpy);
 }
 
-/*This function has been reedited to allow writing a character
- *on a specific row and a specific column.
- * */
-void LCD_vidWriteInPlace(u8 u8xCpy,u8 u8yCpy, u8 u8CharCpy) {
-	LCD_vidGoToXY(u8xCpy,u8yCpy);
+void LCD_vidWriteInPlace(u8 u8xCpy, u8 u8CharCpy) {
+	LCD_vidSendCommand(0x80+u8xCpy);
 	LCD_vidWriteCharacter(u8CharCpy);
 }
