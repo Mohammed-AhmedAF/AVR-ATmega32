@@ -46,22 +46,22 @@ void CLOCK_vidCount(void) {
 				}
 			}
 		}
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS0,u8Hours/10+'0');	
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS1,u8Hours%10+'0');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS2,':');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS3,u8Minute/10+'0');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS4,u8Minute%10+'0');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS5,':');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS6,u8Sec/10+'0');
-		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS7,u8Sec%10+'0');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS0,LCD_YPOS1,u8Hours/10+'0');	
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS1,LCD_YPOS1,u8Hours%10+'0');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS2,LCD_YPOS1,':');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS3,LCD_YPOS1,u8Minute/10+'0');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS4,LCD_YPOS1,u8Minute%10+'0');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS5,LCD_YPOS1,':');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS6,LCD_YPOS1,u8Sec/10+'0');
+		LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS7,LCD_YPOS1,u8Sec%10+'0');
 #ifdef CLOCK_AMPM_SWITCH
 		if (u8Hours <= 12) {
-			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,'A');
-			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS10,'M');
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,LCD_YPOS1,'A');
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS10,LCD_YPOS1,'M');
 		}
 		else {
-			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,'p');
-			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS10,'M');
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS9,LCD_YPOS1,'P');
+			LCD_vidWriteInPlace(LCD_XPOS_SHIFT+LCD_XPOS10,LCD_YPOS1,'M');
 		}
 #endif
 	}

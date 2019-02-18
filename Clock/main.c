@@ -30,6 +30,7 @@ void main(void) {
 	INTERRUPTS_vidSetSenseControl(INTERRUPTS_INT_0,INTERRUPTS_SC_ANYCHANGE);
 	_Int_EN(); /*Setting global interrupt flag*/
 	LCD_vidInit(); /*Initializing LCD*/
+	LCD_vidGoToXY(2,3);
 	while(1) {
 	};
 }

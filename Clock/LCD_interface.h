@@ -54,6 +54,11 @@
 #define LCD_XPOS17 17
 #define LCD_XPOS18 18
 #define LCD_XPOS19 19
+
+#define LCD_YPOS0 0
+#define LCD_YPOS1 1
+#define LCD_YPOS2 2
+#define LCD_YPOS3 3
 /*This macro is used to shift the clock digits
  *on LCD row.
  * */
@@ -68,5 +73,5 @@ void LCD_vidBlinkString(s8*,u8);
 void LCD_vidWriteSizedString(s8*,u8);
 void LCD_vidGoToXY(u8,u8);
 void LCD_vidWriteNumber(u16);
-void LCD_vidWriteInPlace(u8,u8);
+void LCD_vidWriteInPlace(u8,u8,u8);
 #endif
