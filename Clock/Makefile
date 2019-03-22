@@ -30,6 +30,11 @@ build:
 .PHONY : generate_ctags
 	ctags -R
 
+#rule to generate hex file
+.PHONY : build-hex
+build-hex:
+	avr-objcopy -O ihex main.o .main.hex
+
 #Added pwd to distinguish between two or more similar projects being
 #developed at the moment. The pwd command itself is not shown when
 #making the project, this is done by prepending the command with @
