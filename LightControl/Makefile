@@ -8,7 +8,7 @@
 
 MAIN = main.c
 CC = avr-gcc
-SRC = $(MAIN) DIO_program.c SPI_program.c IC74595_program.c UART_program.c INTERRUPTS_program.c
+SRC = $(MAIN) DIO_program.c SPI_program.c IC74595_program.c UART_program.c INTERRUPTS_program.c TIMER0_program.c SCHEDULER_program.c
 CFLAGS = -mmcu=atmega16 -I . -O3
 
 PRO = avrdude

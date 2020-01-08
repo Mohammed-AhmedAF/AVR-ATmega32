@@ -6,6 +6,7 @@
 #include "IC74595_interface.h"
 #include "UART_interface.h"
 #include "INTERRUPTS_interface.h"
+#include "SCHEDULER_interface.h"
 
 void vidDriveLEDSet(void);
 void vidGetLEDNumber(void);
@@ -13,26 +14,33 @@ void vidGetLEDNumber(void);
 volatile u8 u8Set = 0;
 volatile u8 u8Byte = 0;
 u8 u8LEDNumber = 0;
-	
+
+Task_Type driveLEDs_task;
+
 void main(void)
 {
 	UART_vidInit();
 
 	INTERRUPTS_vidEnableInterrupt(INTERRUPTS_USART_RXC);
 	INTERRUPTS_vidPutISRFunction(INTERRUPTS_USART_RXC,vidGetLEDNumber);
-	INTERRUPTS_vidSetGlobalInterruptFlag();
+
+	driveLEDs_task.u16FirstDelay = 0;
+	driveLEDs_task.u16Periodicity = 10;
+	driveLEDs_task.ptrfun = vidDriveLEDSet;
+	driveLEDs_task.u8State = SCHEDULER_TASKSTATE_RUNNING;
+
+	/*Scheduler initialization*/
+	SCHEDULER_vidInit(SCHEDULER_GLOBALINTERRUPT_RAISED);
 	
+	SCHEDULER_vidCreateTask(_SCHEDULER_GETID(driveLEDs_task),SCHEDULER_TASK0);
+
 	SPI_vidInitMaster();
 	
 	
 	IC74595_vidInit();	
 
 	
-	while(1) {
-
-		SPI_vidTransferByte(u8Set);
-		IC74595_vidControl();
-	}
+	while(1);
 }
 
 void vidDriveLEDSet(void)
@@ -68,6 +76,8 @@ void vidDriveLEDSet(void)
 
 	TOGGLE_BIT(u8Set,u8LEDNumber);
 
+	SPI_vidTransferByte(u8Set);
+	IC74595_vidControl();
 }
 
 void vidGetLEDNumber(void) {
