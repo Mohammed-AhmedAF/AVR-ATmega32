@@ -13,6 +13,8 @@ void RTC_vidInit(void);
 void RTC_vidSetTime(RTC_t *);
 void RTC_vidGetTime(RTC_t *);
 
+u8 RTC_DEC2BCD(u8);
+u8 RTC_BCD2DEC(u8);
 
 
 

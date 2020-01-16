@@ -3,6 +3,16 @@
 #include "TWI_interface.h"
 #include "RTC_interface.h"
 
+u8 RTC_DEC2BCD(u8 val)
+{
+	return (val + 6*(val/10));
+}
+
+u8 RTC_BCD2DEC(u8 val)
+{
+	return (val - 6*(val>>4));
+}
+
 void RTC_vidInit(void)
 {
 	TWI_vidInit();
@@ -22,15 +32,12 @@ void RTC_vidInit(void)
 void RTC_vidSetTime(RTC_t * rtc)
 {
 	TWI_vidSendStart();
-	TWI_vidSendByte(0xd1);
+	TWI_vidSendByte(0xd0);
 	TWI_vidSendByte(0x00);
-	TWI_u8CheckAck(0x01);
 	TWI_vidSendByte(rtc->u8Seconds);
-	TWI_u8CheckAck(0x01);
 	TWI_vidSendByte(rtc->u8Minutes);
-	TWI_u8CheckAck(0x01);
 	TWI_vidSendByte(rtc->u8Hours);
-	TWI_u8CheckAck(0x01);
+	TWI_vidSendByte(0x00);
 	TWI_vidSendStop();
 }
 
